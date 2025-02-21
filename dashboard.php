@@ -150,7 +150,7 @@
                                     <table class="table table-hover">
                                         <?php 
                                         $sql = "SELECT vote_log.name, vote_log.votes, vote_log.created_time, 
-                                        model_tbl.full_name FROM vote_log INNER JOIN model_tbl ON vote_log.model_id = model_tbl.id";
+                                        model_tbl.full_name FROM vote_log INNER JOIN model_tbl ON vote_log.model_id = model_tbl.id LIMIT 8";
 
                                         $result = mysqli_query($conn, $sql);
 
@@ -237,7 +237,7 @@
                             <div class="col-md-6">
                                 <p class="copyright d-flex md-end justify-content-center">
                                     &copy; 2024 Design By &nbsp;
-                                    <a href="http://github.com/TemmyCoder">TemmyCoder</a>
+                                    <a href="http://github.com/TemmyCoder" target="_blank">TemmyCoder</a>
                                 </p>
                             </div>
                         </div>

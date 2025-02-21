@@ -69,7 +69,7 @@
             <a href="#pageSubmenu4" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle"> 
             <i class="fa material fa-envelope"></i><span>Reports</span></a>
             <ul class="collapse list-unstyled menu" id="pageSubmenu4">
-                <li><a href="edit_info.php">Vote Log</a></li>
+                <li><a href="vote_history.php">Vote History</a></li>
             </ul>
         </li>
 

@@ -82,7 +82,7 @@
 
                 <div class="main-content">
                     <div class="form">
-                        <h1 class="my-5 mx-5">Sign Up A New Model</h1>
+                        <h1 class="mt-5">Edit Model</h1>
                         <form method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <?php echo $success;?>
