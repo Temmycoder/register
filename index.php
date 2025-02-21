@@ -1,41 +1,38 @@
 <?php
-include("includes/connect.php");
-$error_msg = "";
-if(isset($_GET['lgn'])){
-    $error_msg ="<div class='alert alert-danger'>Access Denied! Please Login. </div>";
-}
-if(isset($_GET['sgn'])){
-    $success = "<div class='alert alert-success'>Registration successful, please Login with your info</div>";
-}
+    include("includes/connect.php");
 
-if (isset($_POST['login'])){
-    $code = $_POST['code'];
-    $email = $_POST['email'];
-    $sql ="SELECT * FROM registration_tbl WHERE email = '$email'";
-    $result = mysqli_query($conn, $sql);
-    
-    //checks if user exists in database
-    if ($data = mysqli_num_rows($result) < 1){
-        $error_msg ="<div class='alert alert-danger'>Invalid Email Address</div>";
+    if(isset($_GET['lgn'])){
+        $error_msg ="<div class='alert alert-danger'>Access Denied! Please Login. </div>";
     }
-    
-    else{
-        $row = mysqli_fetch_assoc($result);
 
-        if (password_verify($code, $row['password'])){
-
-            $_SESSION['fname']= $row['first_name'];
-            $_SESSION['lname']= $row['last_name'];
-            $_SESSION['user_id']= $row['SN'];
-            $_SESSION['profile_pic']= $row['passport'];
-
-            header ("Location:dashboard.php");
+    if (isset($_POST['login'])){
+        $code = $_POST['code'];
+        $email = $_POST['email'];
+        $sql ="SELECT * FROM users_tbl WHERE email = '$email'";
+        $result = mysqli_query($conn, $sql);
+        
+        //checks if user exists in database
+        if ($data = mysqli_num_rows($result) < 1){
+            $error_msg ="<div class='alert alert-danger'>Invalid Email Address</div>";
         }
+        
         else{
-            $error_msg ="<div class='alert alert-danger'>Invalid Password</div>";
+            $row = mysqli_fetch_assoc($result);
+
+            if (password_verify($code, $row['password'])){
+
+                $_SESSION['f_name']= $row['first_name'];
+                $_SESSION['l_name']= $row['last_name'];
+                $_SESSION['admin_id']= $row['id'];
+                $_SESSION['profile_pic']= $row['passport'];
+
+                header ("Location:dashboard.php");
+            }
+            else{
+                $error_msg ="<div class='alert alert-danger'>Invalid Password</div>";
+            }
         }
     }
-}
 ?>
 <style>
     .page{
@@ -44,7 +41,7 @@ if (isset($_POST['login'])){
         line-height: 20px;
         border-radius: 10px;
         font-size: 30px;
-        margin: 60px 470px 0;
+        margin: 60px 350px 0;
         padding: 50px 30px;
         box-shadow: 2px 2px 50px rgb(189, 180, 180);
         
@@ -63,9 +60,9 @@ if (isset($_POST['login'])){
 </head>
 <body>
     <div class="page" style="background-color: #eee; width: 18cm;">
-        <div class="text-center pb-3"><h1>Login Form<h1></div>
+        <div class="text-center pb-3"><h1>Admin Form<h1></div>
         <form method="post" autocomplete="off">
-            <?php echo "$error_msg";?> 
+            <?php echo "$error_msg"; echo "$success"?> 
             <label>E-mail:</label><br><br>
             <input type="email" name="email" id="email" class="form-control"><br><br>
             <label>Password:</label><br><br>

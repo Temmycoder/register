@@ -7,18 +7,18 @@
     require 'PHPMailer/PHPMailer/src/SMTP.php';
     require 'vendor/autoload.php';
 
-    if(!isset($_SESSION['user_id'])){
+    if(!isset($_SESSION['admin_id'])){
         header("Location:index.php?lgn=false");
     }
 
     if(isset($_POST['change'])){
-        $user_id = $_SESSION['user_id'];
+        $user_id = $_SESSION['admin_id'];
         $old = $_POST['old'];
         $new = $_POST['new'];
         $confirm = $_POST['confirm'];
         $new_enc = password_hash($new, PASSWORD_DEFAULT);
 
-        $sql = mysqli_query($conn, "SELECT * FROM registration_tbl WHERE SN = '$user_id'");
+        $sql = mysqli_query($conn, "SELECT * FROM users_tbl WHERE id = '$user_id'");
         $row = mysqli_fetch_assoc($sql);
 
         if (!password_verify($old, $row['password'])){
@@ -31,7 +31,7 @@
             }
 
             else{
-                $update = mysqli_query($conn, "UPDATE registration_tbl SET password = '$new_enc' WHERE SN = '$user_id'");
+                $update = mysqli_query($conn, "UPDATE users_tbl SET password = '$new_enc' WHERE id = '$user_id'");
                 if ($update){
                     $success ="<div class='alert alert-success'>Password has been changed successfully</div>";
                     $mail = new PHPMailer(true);
@@ -70,7 +70,7 @@
 <html>
 <head>
     <title>Change Password</title>
-    <link rel="stylesheet" type="text/css" href="dashboard.css">
+    <link rel="stylesheet" type="text/css" href="adminboard.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/all.css">
 
@@ -87,11 +87,20 @@
     </style>
 </head>
 <body>
-    <?php include('includes/sidebar.php');?>
-    <main>
-        <?php include('includes/header.php');?>
+    <div class="wrapper">
+        <div class="body-overlay"></div>
+        <?php include("includes/sidebar.php");?>
 
-        <h1 class="pt-5 text-center">Change Password</h1>
+        <!---------Page content--------->
+        <div id="content">
+
+            <!---------top navbar design--------->
+
+            <?php include("includes/header.php");?>
+            <!--------Main-content-------->
+        <div class="main-content">
+
+            <h1 class="pt-5 text-center">Change Password</h1>
             <div class="box">
                 <?php echo $error_msg; echo $success?>
                 <form method="post">
@@ -106,10 +115,26 @@
                     </div>
                 </form>
             </div>
-    </main>
+        </div>
+        </div>
+    </div>
 
     <script type="text/javascript" src="js/all.js"></script>
     <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script type="text/javascript">
 
+        $(document) .ready(function(){
+            $("#sidebar-collapse") .on('click',function(){
+                $('#sidebar') .toggleClass('active');
+                $('#content') .toggleClass('active');
+            });
+
+            $(".more-button,.body-overlay") .on('click',function(){
+                $("#sidebar,.body-overlay") .toggleClass('show-nav');
+            });
+        });
+
+    </script>
 </body>
 </html>

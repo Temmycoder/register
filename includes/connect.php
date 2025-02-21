@@ -4,7 +4,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "register_db";
+$dbname = "voters_db";
 $success="";
 $error_msg="";
 
